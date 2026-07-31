@@ -14,15 +14,15 @@ This repository contains all project deliverables developed as part of the AI Pr
 
 ## Repository Structure
 
-| Document | Description |
-|----------|-------------|
-| 01_Executive_Summary.md | Executive Summary |
-| 01_Executive_Summary.pdf | Submission PDF |
-| 02_Final_Report.pdf | Final Report |
-| 03_Presentation_Deck.pdf | Presentation |
-| 04_Prototype_Readme_or_Link.md | Prototype Documentation |
-| 05_AI_Collaboration_Log.md | AI Usage Log |
-| 06_Individual_Contribution_Statement.pdf | Individual Contribution |
+| Deliverable | Status |
+|-------------|--------|
+| 📄 [Executive Summary (Markdown)](01_Executive_Summary.md) | ✅ |
+| 📄 [Executive Summary (PDF)](01_Executive_Summary.pdf) | ✅ |
+| 📄 Final Report | 🚧 |
+| 📊 Presentation Deck | 🚧 |
+| 💻 Prototype | 🚧 |
+| 🤖 AI Collaboration Log | 🚧 |
+| 👤 Individual Contribution Statement | 🚧 |
 
 ---
 
