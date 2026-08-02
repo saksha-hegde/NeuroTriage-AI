@@ -18,6 +18,13 @@ The user journey is as follows:
 
 This workflow improves emergency case prioritization without disrupting the existing clinical process.
 
+### Current Workflow
+
+This diagram demonstrates the existing emergency radiology workflow.
+
+![Current Workflow](images/current-workflow.svg)
+
+*Figure 1. Current emergency radiology workflow.*
 ---
 
 ## Wireframes / Screens
