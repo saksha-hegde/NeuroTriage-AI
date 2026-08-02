@@ -1,0 +1,21 @@
+@startuml
+title Current Emergency Radiology Workflow
+
+start
+
+:Patient arrives with suspected stroke;
+
+:CT Brain Scan;
+
+:Images transferred to PACS;
+
+:Added to Radiologist Worklist;
+
+:Radiologist reviews studies sequentially;
+
+:Detect Intracranial Hemorrhage;
+
+:Emergency Physician notified;
+
+stop
+@enduml
