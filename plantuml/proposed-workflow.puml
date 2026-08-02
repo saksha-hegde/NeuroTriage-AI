@@ -1,0 +1,47 @@
+@startuml
+title AI-Assisted Emergency Stroke Triage Workflow
+
+start
+
+:Patient arrives with suspected stroke;
+
+:CT Brain Scan;
+
+:Images transferred to PACS;
+
+:NeuroTriage AI analyzes CT in background;
+
+if (Suspected ICH?) then (Yes)
+
+:Estimate Confidence;
+
+:Assign Priority;
+
+:Add to top of worklist;
+
+else (No)
+
+:Estimate Confidence;
+
+:Assign Routine Priority;
+
+endif
+
+:Radiologist reviews study;
+
+if (AI Recommendation Accepted?) then (Yes)
+
+:Diagnosis Confirmed;
+
+else (Override)
+
+:Radiologist modifies decision;
+
+endif
+
+:Capture Feedback;
+
+:Emergency Physician notified;
+
+stop
+@enduml
