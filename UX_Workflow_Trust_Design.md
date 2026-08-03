@@ -9,8 +9,8 @@ The user journey is as follows:
 1. The patient undergoes a non-contrast CT brain scan.
 2. CT images are automatically transferred to the hospital PACS.
 3. NeuroTriage AI analyzes the study in the background without requiring any user interaction.
-4. The AI predicts the likelihood of intracranial hemorrhage and estimates its confidence.
-5. The PACS worklist is reprioritized using the AI assessment and model confidence to ensure that clinically urgent and uncertain cases receive earlier review.
+4. The AI analyzes the CT study and estimates both the likelihood of intracranial hemorrhage (ICH) and the confidence of its prediction.
+5. The PACS worklist is reprioritized using the AI assessment and confidence score according to the predefined prioritization policy.
 6. The radiologist reviews studies in priority order.
 7. When a study is opened, NeuroTriage AI displays its assessment, confidence level, and supporting visual explanation.
 8. The radiologist confirms, overrides, or rejects the AI recommendation.
@@ -22,7 +22,7 @@ This workflow improves emergency case prioritization while preserving the existi
 
 ### Current Workflow
 
-The following diagram illustrates the existing emergency radiology workflow, where CT studies are typically reviewed sequentially without AI-assisted prioritization.
+Figure 1 illustrates the existing emergency radiology workflow, where CT studies are typically reviewed sequentially without AI-assisted prioritization.
 
 ![Current Workflow](images/current-workflow.svg)
 
@@ -32,7 +32,7 @@ The following diagram illustrates the existing emergency radiology workflow, whe
 
 ### Proposed AI-Assisted Workflow
 
-The following diagram illustrates how NeuroTriage AI integrates into the existing workflow by automatically prioritizing suspected intracranial hemorrhage cases while preserving clinician oversight.
+Figure 2 illustrates how NeuroTriage AI integrates into the existing workflow by automatically prioritizing suspected intracranial hemorrhage cases while preserving clinician oversight.
 
 ![Proposed Workflow](images/proposed_workflow.svg)
 
@@ -42,7 +42,7 @@ The following diagram illustrates how NeuroTriage AI integrates into the existin
 
 ## Wireframes / Screens
 
-The MVP consists of two primary interfaces that integrate directly into the existing PACS environment.
+The MVP consists of two primary interfaces integrated directly into the existing PACS environment.
 
 ### Screen 1 – Prioritized PACS Worklist
 
@@ -63,7 +63,7 @@ The prioritization policy combines the AI assessment with the model's confidence
 
 ### Screen 2 – AI Decision Support Panel
 
-When a radiologist opens a study, NeuroTriage AI presents only the information necessary to support clinical decision-making while avoiding unnecessary AI complexity.
+When a radiologist opens a study, NeuroTriage AI presents only the information required to support clinical decision-making while minimizing cognitive load.
 
 The panel displays:
 
@@ -82,7 +82,7 @@ The final diagnosis always remains the responsibility of the radiologist.
 
 ## Trust and Explainability
 
-NeuroTriage AI is designed to build clinician trust through transparency while avoiding unnecessary interface complexity. Trust is established by clearly communicating what the AI predicts, how confident it is in that prediction, and allowing the radiologist to make the final clinical decision.
+NeuroTriage AI is designed to build clinician trust through transparency while avoiding unnecessary interface complexity. Trust is established by communicating the AI assessment, its confidence level, and the visual evidence supporting the recommendation while ensuring that the radiologist retains full clinical authority.
 
 ### What does the user need to know?
 
@@ -128,7 +128,7 @@ Since AI predictions are probabilistic, NeuroTriage AI explicitly communicates u
 
 ### High Confidence
 
-High-confidence predictions indicate that the AI has strong confidence in its assessment, allowing the workflow to prioritize cases with greater certainty while still requiring radiologist confirmation.
+High-confidence predictions indicate that the AI has strong confidence in its assessment, enabling more reliable prioritization while still requiring radiologist confirmation.
 
 - High-confidence suspected ICH studies receive the highest priority.
 - High-confidence normal studies remain in the routine worklist.
@@ -155,6 +155,7 @@ If the AI service becomes unavailable or fails to generate a reliable prediction
 - Radiologists continue following existing hospital procedures.
 
 This fail-safe design ensures uninterrupted emergency care even during AI system failures. AI failure must never result in interruption of clinical services.
+The AI module is designed as a decision-support system rather than a mandatory workflow dependency.
 
 ---
 
@@ -168,7 +169,7 @@ The following workflow illustrates how NeuroTriage AI incorporates mandatory hum
 
 NeuroTriage AI follows a Human-in-the-Loop design philosophy where AI assists but never replaces clinical decision-making.
 
-Human review occurs after AI prioritization but before any diagnosis is made.
+Human review is mandatory after AI prioritization and before any clinical diagnosis or treatment decision.
 
 The radiologist may:
 
