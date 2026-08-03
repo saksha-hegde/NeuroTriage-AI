@@ -26,10 +26,10 @@ Three complementary data sources have been identified.
 | Data Source | Examples | Product Rationale |
 |-------------|----------|-------------------|
 | Historical Clinical Data | CT brain scans, radiologist reports, PACS metadata | Provides clinically relevant examples representing the hospital's workflow. |
-| Public Medical Imaging Datasets | RSNA Intracranial Hemorrhage Dataset, CQ500 | Improves model robustness by exposing it to diverse patient populations and imaging conditions. |
+| Anonymized Medical Imaging Datasets | Curated CT brain dataset containing hemorrhage-positive and normal studies used for prototype development | Provides representative training and evaluation data while protecting patient privacy. |
 | Product Feedback Data | Radiologist confirmations, overrides, rejected recommendations | Enables continuous product improvement after deployment by learning from real clinical usage. |
 
-Since the product operates in a clinical environment, all datasets will be anonymized before model development. Only the minimum information required for model training will be retained, following data minimization principles and protecting patient privacy.
+Since NeuroTriage AI operates in a clinical environment, all datasets used for model development will be anonymized to remove patient-identifiable information. Only the minimum data required for model training and evaluation will be retained, following data minimization principles and supporting compliance with applicable healthcare privacy regulations.
 
 ---
 
