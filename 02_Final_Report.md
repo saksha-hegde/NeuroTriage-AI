@@ -25,7 +25,6 @@
 
 # 1. Product Strategy and Opportunity Framing
 
-# Product Strategy
 
 ## Product Vision
 
@@ -170,7 +169,6 @@ The initial MVP addresses one high-impact use case—prioritization of suspected
 
 # 2. PM Artifact Pack
 
-# PM Artifact Pack
 
 ## Problem Statement
 
