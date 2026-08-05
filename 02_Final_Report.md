@@ -361,7 +361,7 @@ This workflow improves emergency case prioritization while preserving the existi
 
 Figure 1 illustrates the existing emergency radiology workflow, where CT studies are typically reviewed sequentially without AI-assisted prioritization.
 
-![Current Workflow](/images/current-workflow.svg)
+![Current Workflow](images/current-workflow.svg)
 
 *Figure 1. Current emergency radiology workflow.*
 
@@ -371,7 +371,7 @@ Figure 1 illustrates the existing emergency radiology workflow, where CT studies
 
 Figure 2 illustrates how NeuroTriage AI integrates into the existing workflow by automatically prioritizing suspected intracranial hemorrhage cases while preserving clinician oversight.
 
-![Proposed Workflow](/images/proposed_workflow.svg)
+![Proposed Workflow](images/proposed_workflow.svg)
 
 *Figure 2. AI-assisted emergency radiology workflow.*
 
@@ -500,7 +500,7 @@ The AI module is designed as a decision-support system rather than a mandatory w
 
 The following workflow illustrates how NeuroTriage AI incorporates mandatory human review before any clinical decision is made.
 
-![Human in Loop](/images/human_in_loop_workflow.svg)
+![Human in Loop](images/human_in_loop_workflow.svg)
 
 *Figure 3. Human-in-the-Loop decision workflow.*
 
