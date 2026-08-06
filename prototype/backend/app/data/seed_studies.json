@@ -1,0 +1,104 @@
+[
+  {
+    "id": "STU-001",
+    "patient_name": "Jordan Ellis",
+    "accession_number": "ACC-20260807-0001",
+    "study_description": "CT Brain W/O Contrast",
+    "exam_datetime": "2026-08-07T06:10:00",
+    "study_status": "Completed",
+    "ai_status": "Ready",
+    "slice_count": 30,
+    "prediction": {
+      "assessment": "Suspected ICH",
+      "confidence": 0.93,
+      "hemorrhage_location": "Right parietal lobe",
+      "overlay_region": { "slice_index": 16, "x": 0.58, "y": 0.28, "width": 0.18, "height": 0.16 },
+      "predicted_at": "2026-08-07T06:14:00"
+    }
+  },
+  {
+    "id": "STU-002",
+    "patient_name": "Wei Zhang",
+    "accession_number": "ACC-20260807-0002",
+    "study_description": "CT Brain W/O Contrast",
+    "exam_datetime": "2026-08-07T06:45:00",
+    "study_status": "Completed",
+    "ai_status": "Ready",
+    "slice_count": 28,
+    "prediction": {
+      "assessment": "Suspected ICH",
+      "confidence": 0.88,
+      "hemorrhage_location": "Left frontal lobe",
+      "overlay_region": { "slice_index": 14, "x": 0.26, "y": 0.24, "width": 0.20, "height": 0.17 },
+      "predicted_at": "2026-08-07T06:49:00"
+    }
+  },
+  {
+    "id": "STU-003",
+    "patient_name": "Priya Nair",
+    "accession_number": "ACC-20260807-0003",
+    "study_description": "CT Brain W/O Contrast",
+    "exam_datetime": "2026-08-07T07:20:00",
+    "study_status": "Completed",
+    "ai_status": "Ready",
+    "slice_count": 32,
+    "prediction": {
+      "assessment": "Suspected ICH",
+      "confidence": 0.62,
+      "hemorrhage_location": "Left temporal lobe",
+      "overlay_region": { "slice_index": 19, "x": 0.24, "y": 0.46, "width": 0.16, "height": 0.14 },
+      "predicted_at": "2026-08-07T07:24:00"
+    }
+  },
+  {
+    "id": "STU-004",
+    "patient_name": "Ahmed Farouk",
+    "accession_number": "ACC-20260807-0004",
+    "study_description": "CT Brain W/O Contrast",
+    "exam_datetime": "2026-08-07T07:55:00",
+    "study_status": "Completed",
+    "ai_status": "Ready",
+    "slice_count": 29,
+    "prediction": {
+      "assessment": "No Suspicious Findings",
+      "confidence": 0.58,
+      "hemorrhage_location": null,
+      "overlay_region": null,
+      "predicted_at": "2026-08-07T07:59:00"
+    }
+  },
+  {
+    "id": "STU-005",
+    "patient_name": "Maria Castillo",
+    "accession_number": "ACC-20260807-0005",
+    "study_description": "CT Brain W/O Contrast",
+    "exam_datetime": "2026-08-07T08:10:00",
+    "study_status": "Completed",
+    "ai_status": "Ready",
+    "slice_count": 31,
+    "prediction": {
+      "assessment": "No Suspicious Findings",
+      "confidence": 0.95,
+      "hemorrhage_location": null,
+      "overlay_region": null,
+      "predicted_at": "2026-08-07T08:14:00"
+    }
+  },
+  {
+    "id": "STU-006",
+    "patient_name": "Liam O'Connor",
+    "accession_number": "ACC-20260807-0006",
+    "study_description": "CT Brain W/O Contrast",
+    "exam_datetime": "2026-08-07T08:40:00",
+    "study_status": "Completed",
+    "ai_status": "Ready",
+    "slice_count": 27,
+    "prediction": {
+      "assessment": "No Suspicious Findings",
+      "confidence": 0.91,
+      "hemorrhage_location": null,
+      "overlay_region": null,
+      "predicted_at": "2026-08-07T08:44:00"
+    }
+  }
+]

@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+
+# Raw DICOM source - converted PNGs (app/data/images/) are the tracked
+# artifact; the original files stay local and never get committed.
+app/data/dicom_source/

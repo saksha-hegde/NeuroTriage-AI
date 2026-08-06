@@ -1,0 +1,15 @@
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+pydantic==2.10.4
+
+# DICOM -> PNG conversion (Milestone 6: real CT slice images)
+pydicom==3.0.1
+numpy==2.2.1
+Pillow==11.1.0
+
+# testing
+pytest==8.3.4
+httpx==0.28.1
+
+# linting
+ruff==0.8.6

@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+/*
+ * Clinical color/theme tokens.
+ *
+ * Priority colors follow the UX Workflow & Trust Design policy exactly:
+ * Critical (red) / High (orange) / Moderate (yellow) / Routine (green).
+ * Defined once here so both the worklist and reading screens stay in sync,
+ * and so contrast can be audited in one place (WCAG AA target).
+ */
+@theme {
+  --color-priority-critical: #dc2626;
+  --color-priority-critical-bg: #fef2f2;
+  --color-priority-high: #ea580c;
+  --color-priority-high-bg: #fff7ed;
+  --color-priority-moderate: #ca8a04;
+  --color-priority-moderate-bg: #fefce8;
+  --color-priority-routine: #16a34a;
+  --color-priority-routine-bg: #f0fdf4;
+
+  --color-clinical-bg: #f8fafc;
+  --color-clinical-surface: #ffffff;
+  --color-clinical-border: #e2e8f0;
+  --color-clinical-text: #0f172a;
+  --color-clinical-muted: #64748b;
+
+  --font-sans: "Inter", system-ui, "Segoe UI", Roboto, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  @theme {
+    --color-clinical-bg: #0b1120;
+    --color-clinical-surface: #111827;
+    --color-clinical-border: #1f2937;
+    --color-clinical-text: #f1f5f9;
+    --color-clinical-muted: #94a3b8;
+  }
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background-color: var(--color-clinical-bg);
+  color: var(--color-clinical-text);
+}
