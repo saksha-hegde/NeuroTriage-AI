@@ -6,8 +6,11 @@ the repository/services. No business logic lives here (see
 app/core/prioritization.py and app/services/).
 """
 
+import io
+
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
-from fastapi.responses import FileResponse
+from fastapi.responses import Response
+from PIL import Image
 
 from app.models.schemas import Feedback, FeedbackRequest, Study
 from app.repositories.feedback_repository import FeedbackRepository, get_feedback_repository
@@ -19,8 +22,9 @@ from app.services.feedback_service import (
     StudyNotReadyError,
     record_feedback,
 )
-from app.services.image_store import get_slice_path
-from app.services.study_workflow import create_incoming_study, run_incoming_study_workflow
+from app.services.image_store import get_dicom_default_window, get_raw_slice_hu
+from app.services.study_workflow import run_incoming_study_workflow, start_incoming_study
+from app.services.windowing import PresetName, apply_window, resolve_preset
 
 router = APIRouter(prefix="/studies", tags=["studies"])
 
@@ -52,9 +56,26 @@ def simulate_new_study(
     (see app/services/study_workflow.py) and is observed by polling
     GET /studies or GET /studies/{id}.
     """
-    study = create_incoming_study(repo)
+    study = start_incoming_study(repo)
     background_tasks.add_task(run_incoming_study_workflow, study.id, repo, ai_engine)
     return study
+
+
+@router.post("/reset", response_model=list[Study])
+def reset_demo(
+    study_repo: StudyRepository = Depends(get_study_repository),
+    feedback_repo: FeedbackRepository = Depends(get_feedback_repository),
+) -> list[Study]:
+    """"Reset Demo": restores the worklist to its initial three-study state
+    (app/core/config.py's INITIAL_DEMO_STUDY_IDS), clears every simulated/
+    fabricated study and recorded Confirm/Override decision, and re-queues
+    the held-back real studies so "Simulate New CT Study" reveals them
+    again from the start. Never touches seed_studies.json, DICOM source
+    files, or converted images - only in-memory demo state (see
+    StudyRepository.reset_demo_state / FeedbackRepository.reset)."""
+    study_repo.reset_demo_state()
+    feedback_repo.reset()
+    return study_repo.get_all()
 
 
 @router.get("/{study_id}", response_model=Study)
@@ -73,11 +94,16 @@ def get_study(
 def get_slice_image(
     study_id: str,
     slice_index: int,
+    preset: PresetName = "brain",
     repo: StudyRepository = Depends(get_study_repository),
-) -> FileResponse:
-    """One CT slice image (RD-01: display the CT study selected from the
-    worklist). Converted ahead of time by scripts/convert_dicom.py - this
-    endpoint only ever reads a PNG off disk, it never touches DICOM."""
+) -> Response:
+    """One CT slice image, windowed for display (RD-01: display the CT study
+    selected from the worklist). Converted ahead of time by
+    scripts/convert_dicom.py into lossless per-slice HU data - this endpoint
+    never touches DICOM, but it does apply the requested window/level
+    (`preset`: "brain" | "blood" | "dicom", default "brain") to that
+    preserved data on every call, so window/level can change without ever
+    re-converting the source DICOM. See app/services/windowing.py."""
     study = repo.get_by_id(study_id)
     if study is None:
         raise HTTPException(status_code=404, detail=f"Study '{study_id}' not found")
@@ -88,14 +114,20 @@ def get_slice_image(
             f"(0-{study.slice_count - 1})",
         )
 
-    path = get_slice_path(study_id, slice_index)
-    if path is None:
+    hu = get_raw_slice_hu(study_id, slice_index)
+    if hu is None:
         raise HTTPException(
             status_code=404,
             detail="Image not available yet - see backend/app/data/README.md "
             "to add real CT images for this study.",
         )
-    return FileResponse(path, media_type="image/png")
+
+    dicom_default = get_dicom_default_window(study_id) if preset == "dicom" else None
+    windowed = apply_window(hu, resolve_preset(preset, dicom_default))
+
+    buffer = io.BytesIO()
+    Image.fromarray(windowed, mode="L").save(buffer, format="PNG")
+    return Response(content=buffer.getvalue(), media_type="image/png")
 
 
 @router.post("/{study_id}/feedback", response_model=Feedback, status_code=201)

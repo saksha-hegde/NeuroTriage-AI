@@ -12,6 +12,14 @@ export type Assessment = 'Suspected ICH' | 'No Suspicious Findings'
 
 export type Priority = 'Critical' | 'High' | 'Moderate' | 'Routine'
 
+/**
+ * CT viewer window/level preset - mirrors the `preset` query param on
+ * GET /studies/{id}/slices/{n} (see backend/app/services/windowing.py).
+ * "dicom" means "the source DICOM's own WindowCenter/WindowWidth", falling
+ * back server-side to "brain" if the study's DICOM didn't carry one.
+ */
+export type WindowPreset = 'brain' | 'blood' | 'dicom'
+
 export interface OverlayRegion {
   slice_index: number
   x: number

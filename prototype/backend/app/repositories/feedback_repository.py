@@ -30,6 +30,13 @@ class FeedbackRepository:
     def get_all(self) -> list[Feedback]:
         return list(self._feedback.values())
 
+    def reset(self) -> None:
+        """"Reset Demo" (POST /studies/reset): clears every recorded
+        Confirm/Override decision, restoring a clean feedback slate to go
+        with the worklist's reset initial state."""
+        self._feedback = {}
+        self._id_counter = count(1)
+
 
 # Module-level singleton, mirroring study_repository.py's pattern.
 _repository = FeedbackRepository()

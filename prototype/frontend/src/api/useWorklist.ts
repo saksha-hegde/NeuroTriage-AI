@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { fetchWorklist, simulateNewStudy } from './client'
+import { fetchWorklist, resetDemo, simulateNewStudy } from './client'
 import type { Study } from '../types/study'
 
 const POLL_INTERVAL_MS = 2000
@@ -16,6 +16,11 @@ interface UseWorklistResult {
   updatedIds: Set<string>
   simulateStudy: () => Promise<void>
   simulating: boolean
+  /** "Reset Demo": restores the initial three-study state server-side and
+   * clears local highlight-tracking so nothing flashes as "changed"
+   * afterward - a reset is a full state replacement, not an update. */
+  resetDemoState: () => Promise<void>
+  resetting: boolean
 }
 
 function snapshotKey(study: Study): string {
@@ -33,6 +38,7 @@ export function useWorklist(): UseWorklistResult {
   const [error, setError] = useState<string | null>(null)
   const [updatedIds, setUpdatedIds] = useState<Set<string>>(new Set())
   const [simulating, setSimulating] = useState(false)
+  const [resetting, setResetting] = useState(false)
 
   // Refs, not state - these track bookkeeping that shouldn't itself trigger
   // re-renders (the snapshot map) or needs cleanup across renders (timers).
@@ -109,5 +115,34 @@ export function useWorklist(): UseWorklistResult {
     }
   }, [load])
 
-  return { studies, loading, error, updatedIds, simulateStudy, simulating }
+  const resetDemoState = useCallback(async () => {
+    setResetting(true)
+    try {
+      const fresh = await resetDemo()
+      // A reset is a full state replacement, not a series of changes - seed
+      // the snapshot map from the fresh data (rather than clearing it) so
+      // the *next* poll doesn't misread "wasn't tracked before" as a change
+      // and flash every row, and clear any in-flight highlights from
+      // before the reset.
+      previousSnapshot.current = new Map(fresh.map((study) => [study.id, snapshotKey(study)]))
+      highlightTimeouts.current.forEach(clearTimeout)
+      highlightTimeouts.current.clear()
+      setUpdatedIds(new Set())
+      setStudies(fresh)
+      setError(null)
+    } finally {
+      setResetting(false)
+    }
+  }, [])
+
+  return {
+    studies,
+    loading,
+    error,
+    updatedIds,
+    simulateStudy,
+    simulating,
+    resetDemoState,
+    resetting,
+  }
 }

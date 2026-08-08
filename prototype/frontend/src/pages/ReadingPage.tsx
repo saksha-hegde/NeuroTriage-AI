@@ -5,8 +5,10 @@ import { useStudy } from '../api/useStudy'
 import { AIAssessmentPanel } from '../components/reading/AIAssessmentPanel'
 import { ActionBar } from '../components/reading/ActionBar'
 import { CTImageViewer } from '../components/reading/CTImageViewer'
+import { JumpToFindingButton } from '../components/reading/JumpToFindingButton'
 import { OverlayToggle } from '../components/reading/OverlayToggle'
-import type { Assessment } from '../types/study'
+import { WindowPresetControl } from '../components/reading/WindowPresetControl'
+import type { Assessment, WindowPreset } from '../types/study'
 
 // How long "Feedback Recorded" stays visible before returning to the
 // worklist - Design Spec section 5: "briefly displays 'Feedback Recorded',
@@ -21,6 +23,7 @@ export function ReadingPage() {
   const { study, loading, error } = useStudy(studyId)
   const [sliceIndex, setSliceIndex] = useState(0)
   const [showOverlay, setShowOverlay] = useState(true)
+  const [windowPreset, setWindowPreset] = useState<WindowPreset>('brain')
   const [submitting, setSubmitting] = useState(false)
   const [justRecorded, setJustRecorded] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
@@ -44,6 +47,14 @@ export function ReadingPage() {
 
   const overlay = study.prediction?.overlay_region ?? null
   const alreadyReported = study.study_status === 'Reported'
+
+  function handleJumpToFinding() {
+    if (!overlay) return
+    setSliceIndex(overlay.slice_index)
+    setShowOverlay(true)
+    // windowPreset is intentionally left untouched - jumping to the
+    // finding is a slice/overlay concern, not a display-preset one.
+  }
 
   async function handleDecision(decision: 'Confirm' | 'Override', overriddenAssessment?: Assessment) {
     if (!study) return
@@ -81,9 +92,12 @@ export function ReadingPage() {
             onIndexChange={setSliceIndex}
             overlay={overlay}
             showOverlay={showOverlay}
+            windowPreset={windowPreset}
           />
-          <div className="mt-3">
+          <div className="mt-3 flex flex-wrap items-center gap-4">
             <OverlayToggle checked={showOverlay} onChange={setShowOverlay} disabled={!overlay} />
+            <WindowPresetControl value={windowPreset} onChange={setWindowPreset} />
+            <JumpToFindingButton overlay={overlay} onJump={handleJumpToFinding} />
           </div>
         </div>
 

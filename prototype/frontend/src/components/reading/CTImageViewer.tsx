@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { sliceImageUrl } from '../../api/client'
-import type { OverlayRegion } from '../../types/study'
+import type { OverlayRegion, WindowPreset } from '../../types/study'
 
 interface CTImageViewerProps {
   studyId: string
@@ -9,6 +9,7 @@ interface CTImageViewerProps {
   onIndexChange: (index: number) => void
   overlay: OverlayRegion | null
   showOverlay: boolean
+  windowPreset: WindowPreset
 }
 
 /**
@@ -21,7 +22,10 @@ interface CTImageViewerProps {
  * dimensions. This assumes the image fills its (square) container the same
  * way on both axes - true for the common CT acquisition matrix (e.g.
  * 512x512) this prototype targets; a non-square real image would need the
- * container's aspect-ratio adjusted to match.
+ * container's aspect-ratio adjusted to match. Because the overlay is a
+ * separate DOM layer rather than something baked into the image pixels, it
+ * stays correctly positioned no matter which window/level preset is active
+ * - windowing only changes pixel intensities, never the image's geometry.
  */
 export function CTImageViewer({
   studyId,
@@ -30,13 +34,15 @@ export function CTImageViewer({
   onIndexChange,
   overlay,
   showOverlay,
+  windowPreset,
 }: CTImageViewerProps) {
   const [imageFailed, setImageFailed] = useState(false)
 
-  // A new slice is a new image request - give it a fresh chance to load.
+  // A new slice, or a new window/level preset, is a new image request -
+  // give it a fresh chance to load.
   useEffect(() => {
     setImageFailed(false)
-  }, [studyId, currentIndex])
+  }, [studyId, currentIndex, windowPreset])
 
   const overlayVisibleHere = showOverlay && overlay !== null && overlay.slice_index === currentIndex
 
@@ -53,7 +59,7 @@ export function CTImageViewer({
       <div className="relative aspect-square w-full overflow-hidden rounded-lg border border-clinical-border bg-black">
         {!imageFailed ? (
           <img
-            src={sliceImageUrl(studyId, currentIndex)}
+            src={sliceImageUrl(studyId, currentIndex, windowPreset)}
             alt={`CT slice ${currentIndex + 1} of ${sliceCount}`}
             className="h-full w-full object-contain"
             onError={() => setImageFailed(true)}

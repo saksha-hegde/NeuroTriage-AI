@@ -1,5 +1,6 @@
 """
-One-time conversion step: real DICOM -> PNG slices for the CT viewer.
+One-time conversion step: real DICOM -> preserved-HU-data slices for the CT
+viewer.
 
 Usage (from backend/, with the venv active):
 
@@ -8,9 +9,19 @@ Usage (from backend/, with the venv active):
 What it expects:
     app/data/dicom_source/{study_id}/*.dcm   <- you place your files here
         e.g. app/data/dicom_source/STU-001/*.dcm
+    Extensionless files are also picked up if they're valid DICOM - detected
+    by attempting to read them, not by filename - since some scanner/PACS
+    exports drop the .dcm extension. Files with any other extension are
+    ignored.
 
 What it produces:
-    app/data/images/{study_id}/slice_000.png, slice_001.png, ...
+    app/data/images/{study_id}/slice_000.png, slice_001.png, ... - 16-bit
+        grayscale PNGs holding raw Hounsfield-unit data, NOT a pre-windowed
+        8-bit image. Window/level (brain/blood/DICOM-default) is applied
+        per-request by the API instead - see app/services/windowing.py -
+        so it can change without ever re-running this script.
+    app/data/images/{study_id}/window_default.json - the source DICOM's own
+        WindowCenter/WindowWidth, if it had one.
     app/data/seed_studies.json - `slice_count` updated for each converted
         study, and any ICH overlay_region.slice_index clamped into bounds
         if the real slice count is smaller than the placeholder assumed.

@@ -7,12 +7,18 @@
     "exam_datetime": "2026-08-07T06:10:00",
     "study_status": "Completed",
     "ai_status": "Ready",
-    "slice_count": 30,
+    "slice_count": 48,
     "prediction": {
       "assessment": "Suspected ICH",
       "confidence": 0.93,
-      "hemorrhage_location": "Right parietal lobe",
-      "overlay_region": { "slice_index": 16, "x": 0.58, "y": 0.28, "width": 0.18, "height": 0.16 },
+      "hemorrhage_location": "Left parietal lobe",
+      "overlay_region": {
+        "slice_index": 24,
+        "x": 0.51,
+        "y": 0.43,
+        "width": 0.26,
+        "height": 0.34
+      },
       "predicted_at": "2026-08-07T06:14:00"
     }
   },
@@ -24,12 +30,18 @@
     "exam_datetime": "2026-08-07T06:45:00",
     "study_status": "Completed",
     "ai_status": "Ready",
-    "slice_count": 28,
+    "slice_count": 92,
     "prediction": {
       "assessment": "Suspected ICH",
       "confidence": 0.88,
       "hemorrhage_location": "Left frontal lobe",
-      "overlay_region": { "slice_index": 14, "x": 0.26, "y": 0.24, "width": 0.20, "height": 0.17 },
+      "overlay_region": {
+        "slice_index": 35,
+        "x": 0.5,
+        "y": 0.4,
+        "width": 0.19,
+        "height": 0.18
+      },
       "predicted_at": "2026-08-07T06:49:00"
     }
   },
@@ -41,12 +53,18 @@
     "exam_datetime": "2026-08-07T07:20:00",
     "study_status": "Completed",
     "ai_status": "Ready",
-    "slice_count": 32,
+    "slice_count": 228,
     "prediction": {
       "assessment": "Suspected ICH",
       "confidence": 0.62,
       "hemorrhage_location": "Left temporal lobe",
-      "overlay_region": { "slice_index": 19, "x": 0.24, "y": 0.46, "width": 0.16, "height": 0.14 },
+      "overlay_region": {
+        "slice_index": 172,
+        "x": 0.58,
+        "y": 0.5,
+        "width": 0.24,
+        "height": 0.18
+      },
       "predicted_at": "2026-08-07T07:24:00"
     }
   },
@@ -58,7 +76,7 @@
     "exam_datetime": "2026-08-07T07:55:00",
     "study_status": "Completed",
     "ai_status": "Ready",
-    "slice_count": 29,
+    "slice_count": 488,
     "prediction": {
       "assessment": "No Suspicious Findings",
       "confidence": 0.58,
@@ -75,7 +93,7 @@
     "exam_datetime": "2026-08-07T08:10:00",
     "study_status": "Completed",
     "ai_status": "Ready",
-    "slice_count": 31,
+    "slice_count": 72,
     "prediction": {
       "assessment": "No Suspicious Findings",
       "confidence": 0.95,
@@ -92,12 +110,18 @@
     "exam_datetime": "2026-08-07T08:40:00",
     "study_status": "Completed",
     "ai_status": "Ready",
-    "slice_count": 27,
+    "slice_count": 45,
     "prediction": {
-      "assessment": "No Suspicious Findings",
-      "confidence": 0.91,
-      "hemorrhage_location": null,
-      "overlay_region": null,
+      "assessment": "Suspected ICH",
+      "confidence": 0.9,
+      "hemorrhage_location": "Left periventricular region (parietal level)",
+      "overlay_region": {
+        "slice_index": 24,
+        "x": 0.48,
+        "y": 0.56,
+        "width": 0.14,
+        "height": 0.19
+      },
       "predicted_at": "2026-08-07T08:44:00"
     }
   }

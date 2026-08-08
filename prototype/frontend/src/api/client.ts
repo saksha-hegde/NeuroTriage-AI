@@ -1,4 +1,4 @@
-import type { Assessment, Study } from '../types/study'
+import type { Assessment, Study, WindowPreset } from '../types/study'
 import type { Feedback, FeedbackDecision } from '../types/feedback'
 
 /**
@@ -43,9 +43,22 @@ export function simulateNewStudy(): Promise<Study> {
   return apiFetch<Study>('/studies/simulate', { method: 'POST' })
 }
 
-/** Not a fetch - just builds the URL an <img> src consumes directly. */
-export function sliceImageUrl(studyId: string, sliceIndex: number): string {
-  return `/api/studies/${studyId}/slices/${sliceIndex}`
+/** "Reset Demo": restores the worklist to its initial three-study state and
+ * clears simulated studies / Confirm-Override decisions server-side.
+ * Returns the fresh worklist so the caller doesn't need a second fetch. */
+export function resetDemo(): Promise<Study[]> {
+  return apiFetch<Study[]>('/studies/reset', { method: 'POST' })
+}
+
+/** Not a fetch - just builds the URL an <img> src consumes directly. Window/
+ * level (`preset`) is a query param, not a fetch/re-render concern - the
+ * browser just requests a new image when it changes. */
+export function sliceImageUrl(
+  studyId: string,
+  sliceIndex: number,
+  preset: WindowPreset = 'brain',
+): string {
+  return `/api/studies/${studyId}/slices/${sliceIndex}?preset=${preset}`
 }
 
 export function submitFeedback(

@@ -12,6 +12,14 @@ immediately (the new study appears in the worklist right away, in
 "Acquiring" status) while the transitions happen on their own schedule.
 Timing constants live in app/core/config.py so they're easy to tune without
 touching this logic.
+
+Milestone 9: "Simulate New CT Study" reveals the three held-back real
+studies (RESERVE_DEMO_STUDY_IDS) one at a time before ever fabricating a new
+patient - see `start_incoming_study`. Either way the study still visibly
+progresses through the same Acquiring -> Processing -> Ready transition;
+only where its *final* prediction comes from differs (its own real,
+pre-calibrated one vs. the simulated AI engine) - see
+`run_incoming_study_workflow`.
 """
 
 import asyncio
@@ -58,6 +66,19 @@ def create_incoming_study(repo: StudyRepository) -> Study:
     return study
 
 
+def start_incoming_study(repo: StudyRepository) -> Study:
+    """Entry point for "Simulate New CT Study" (POST /studies/simulate):
+    reveals the next held-back real study if any remain - see
+    StudyRepository.reveal_next_reserve_study - otherwise falls back to a
+    fully fabricated one (create_incoming_study, the original Milestone 5
+    behavior). Either way the returned study is already saved in
+    "Acquiring" status before this returns."""
+    revealed = repo.reveal_next_reserve_study()
+    if revealed is not None:
+        return revealed
+    return create_incoming_study(repo)
+
+
 async def run_incoming_study_workflow(
     study_id: str, repo: StudyRepository, ai_engine: AIEngine
 ) -> None:
@@ -80,7 +101,15 @@ async def run_incoming_study_workflow(
     study = repo.get_by_id(study_id)
     if study is None:
         return
-    prediction = ai_engine.predict(study)
+
+    # A revealed reserve study already has its own real, pre-calibrated
+    # prediction (from seed_studies.json, calibrated against its actual
+    # converted DICOM) - use that instead of asking the AI engine to invent
+    # one, so its confidence/overlay stay exactly what was calibrated.
+    # Fully fabricated incoming studies (no seed data under this id) still
+    # go through the simulated engine exactly as before.
+    prediction = repo.get_seed_prediction(study_id) or ai_engine.predict(study)
+
     priority = determine_priority(prediction.assessment, prediction.confidence)
     study = study.model_copy(
         update={"ai_status": AIStatus.READY, "priority": priority, "prediction": prediction}

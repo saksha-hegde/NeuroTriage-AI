@@ -36,3 +36,17 @@ CONFIDENCE_HIGH_THRESHOLD = 0.80  # >= this is "High" confidence, else "Medium"
 # "Medium" (not deprioritized further) - it exists only to flag unusually low
 # confidence for logging/monitoring, not to change routing.
 CONFIDENCE_LOW_WARNING_THRESHOLD = 0.50
+
+# --- Demo state (Milestone 9: Reset Demo, staged study reveal) -------------
+# Which seeded studies are visible in the worklist at startup / after
+# "Reset Demo", vs. held back to be introduced one at a time via "Simulate
+# New CT Study" - using their own real, pre-calibrated prediction (from
+# seed_studies.json, calibrated against real converted DICOM) rather than a
+# fabricated one. See app/repositories/study_repository.py
+# (reveal_next_reserve_study/reset_demo_state) and
+# app/services/study_workflow.py. Order matters for RESERVE_DEMO_STUDY_IDS -
+# studies are revealed in this order as "Simulate New CT Study" is clicked;
+# once the queue is empty, further clicks fall back to a fully fabricated
+# incoming study (the original Milestone 5 behavior).
+INITIAL_DEMO_STUDY_IDS = ["STU-001", "STU-004", "STU-005"]
+RESERVE_DEMO_STUDY_IDS = ["STU-002", "STU-003", "STU-006"]

@@ -7,11 +7,15 @@ from app.main import app
 client = TestClient(app)
 
 
-def test_list_studies_returns_all_seed_studies() -> None:
+def test_list_studies_returns_the_initial_three_studies() -> None:
+    """Milestone 9: the worklist starts with only Jordan Ellis (Critical),
+    Ahmed Farouk (Moderate), Maria Castillo (Routine) - the other three real
+    DICOM studies are introduced later via "Simulate New CT Study"."""
     response = client.get("/api/studies")
     assert response.status_code == 200
     body = response.json()
-    assert len(body) == 6
+    assert len(body) == 3
+    assert {s["id"] for s in body} == {"STU-001", "STU-004", "STU-005"}
 
 
 def test_list_studies_is_ordered_most_urgent_first() -> None:
