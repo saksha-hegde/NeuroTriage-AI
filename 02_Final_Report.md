@@ -6,7 +6,8 @@
 
 **Course:** Management of AI Products  
 **Program:** MBA in AI for Business  
-**Submitted by:** Saksha Hegde
+**Submitted by:** Saksha Hegde  
+**Bits ID:** 2024bc26568
 
 ---
 
@@ -121,13 +122,15 @@ The MVP will address a single, high-impact workflow:
 
 > **Automatically prioritize suspected intracranial hemorrhage (ICH) CT studies within the radiologist's PACS worklist.**
 
-The MVP will:
+The target product will:
 
 - Analyze non-contrast CT brain studies immediately after acquisition.
 - Estimate the probability of intracranial hemorrhage.
 - Assign a confidence score.
 - Reorder the radiologist's worklist based on clinical urgency.
 - Allow the radiologist to accept, reject, or override AI recommendations.
+
+The academic prototype demonstrates these workflow behaviours using simulated AI inference rather than a clinically trained inference model. Its purpose is to demonstrate the end-to-end workflow, prioritization logic, confidence handling, image review, and human-in-the-loop interaction.
 
 The MVP will **not** include:
 
@@ -159,7 +162,7 @@ The product integrates seamlessly into existing PACS workflows, requiring minima
 
 ### 4. Trust Through Transparency
 
-Every AI recommendation is accompanied by a confidence score and can be accepted, overridden, or rejected by the radiologist. Transparency is essential for clinician trust and responsible AI adoption.
+Every AI recommendation is accompanied by a confidence score and can be accepted or overridden by the radiologist. Transparency is essential for clinician trust and responsible AI adoption.
 
 ### 5. Start Focused, Then Scale
 
@@ -199,7 +202,7 @@ Radiologists currently lack an intelligent mechanism to identify the most clinic
 5. A confidence score is generated.
 6. The PACS worklist is reordered based on predicted clinical urgency.
 7. The radiologist reviews the prioritized studies.
-8. The radiologist confirms, overrides, or rejects the AI recommendation.
+8. The radiologist confirms or overrides the AI recommendation.
 9. User feedback is captured for future model improvement.
 
 ### AI Role
@@ -240,7 +243,7 @@ The Minimum Viable Product (MVP) focuses on validating a single high-value workf
 
 > **Automatically prioritize suspected intracranial hemorrhage CT studies within the radiologist's PACS worklist.**
 
-The MVP will:
+The target product will:
 
 - Analyze non-contrast CT brain studies immediately after acquisition.
 - Predict the probability of intracranial hemorrhage.
@@ -248,6 +251,8 @@ The MVP will:
 - Reorder the radiologist's worklist based on predicted urgency.
 - Allow radiologists to accept, reject, or override AI recommendations.
 - Capture user feedback for future model improvement.
+
+The academic prototype demonstrates these workflow behaviours using simulated AI inference. Its purpose is to validate the product workflow and interaction model rather than clinical AI performance.
 
 The MVP intentionally excludes:
 
@@ -258,6 +263,43 @@ The MVP intentionally excludes:
 - Detection of other neurological conditions
 
 Restricting the MVP to a single workflow minimizes implementation complexity while enabling rapid validation of clinical usefulness, workflow integration, and user acceptance.
+
+### Prototype Implementation
+
+The academic prototype implements the core NeuroTriage AI workflow using a simulated AI inference layer. It demonstrates the complete interaction from arrival of a new CT study through AI processing, worklist reprioritization, radiologist review, and feedback.
+
+The prototype provides:
+
+- A PACS-inspired radiology worklist.
+- Simulation of a new CT study arriving.
+- Study progression through **Acquiring → Completed → AI Processing → Ready**.
+- Automatic reprioritization based on the simulated AI assessment and confidence.
+- A CT image viewing experience with AI assessment information and an explainability overlay.
+- Confirm and Override actions.
+- Feedback capture following the radiologist's decision.
+- Return of the reviewed study to the worklist with its updated status.
+- A **Reset Demo** capability to restore the demonstration to its clean initial state.
+- A **Jump to Finding** action to navigate directly to the AI-highlighted CT slice.
+
+The prototype uses a staged demonstration worklist so that the initial screen contains a small set of representative studies and additional calibrated studies can be introduced through the simulated incoming-study workflow. The underlying seed data and real CT images remain unchanged when the demo is reset.
+
+AI inference is simulated for the prototype; however, the backend architecture isolates the inference service so that a validated clinical model can replace the simulated implementation without requiring changes to the user interface.
+
+---
+
+## Prototype Limitations
+
+The academic prototype is intended to validate the product workflow and user interaction rather than clinical AI performance. It does not demonstrate:
+
+- Clinical-grade ICH detection accuracy.
+- Clinical validation on a representative patient population.
+- Production real-time inference performance.
+- Live PACS/DICOM integration.
+- Multi-user or enterprise deployment.
+- Regulatory compliance or clinical readiness.
+- Production-scale reliability, monitoring, or infrastructure.
+
+The prototype therefore demonstrates the **workflow hypothesis**, not the **clinical AI performance hypothesis**. Before real-world clinical deployment, the underlying AI model would require appropriate clinical validation, safety assessment, regulatory review, and integration testing.
 
 ---
 
@@ -283,7 +325,7 @@ Expand product capabilities to improve clinician trust, usability, and operation
 
 Deliverables:
 
-- Explainability visualizations (heatmaps and highlighted regions of interest)
+- Explainability visualizations (highlight regions of interest)
 - Feedback-driven model improvement using radiologist validations
 - Pilot deployment across multiple departments within the hospital
 - Workflow analytics dashboard for operational and adoption metrics
@@ -349,7 +391,7 @@ The user journey is as follows:
 5. The PACS worklist is reprioritized using the AI assessment and confidence score according to the predefined prioritization policy.
 6. The radiologist reviews studies in priority order.
 7. When a study is opened, NeuroTriage AI displays its assessment, confidence level, and supporting visual explanation.
-8. The radiologist confirms, overrides, or rejects the AI recommendation.
+8. The radiologist confirms or overrides the AI recommendation.
 9. Radiologist feedback is captured to support future model improvement.
 
 This workflow improves emergency case prioritization while preserving the existing clinical workflow and ensuring that the radiologist remains responsible for all diagnostic decisions.
@@ -378,7 +420,7 @@ Figure 2 illustrates how NeuroTriage AI integrates into the existing workflow by
 
 ## Wireframes / Screens
 
-The MVP consists of two primary interfaces integrated directly into the existing PACS environment.
+The target product is designed to integrate into the existing PACS workflow. For the academic MVP, this integration is represented through a PACS-inspired simulated worklist that demonstrates the intended workflow without requiring live PACS/DICOM connectivity.
 
 ### Screen 1 – Prioritized PACS Worklist
 
@@ -410,7 +452,6 @@ The panel displays:
 - Radiologist actions:
   - Confirm
   - Override
-  - Reject
 
 The final diagnosis always remains the responsibility of the radiologist.
 
@@ -511,9 +552,8 @@ The radiologist may:
 
 - Accept the AI recommendation.
 - Override the AI prioritization.
-- Reject the AI assessment completely.
 
-Every override or rejection is captured as feedback for future model improvement.
+Every override is captured as feedback for future model improvement.
 
 NeuroTriage AI assists in prioritization, but every diagnosis remains the responsibility of the radiologist. This Human-in-the-Loop approach balances AI efficiency with clinical expertise, ensuring patient safety while enabling continuous learning from clinician feedback.
 
@@ -549,7 +589,7 @@ Three complementary data sources have been identified.
 |-------------|----------|-------------------|
 | Historical Clinical Data | CT brain scans, radiologist reports, PACS metadata | Provides clinically relevant examples representing the hospital's workflow. |
 | Anonymized Medical Imaging Datasets | Curated CT brain dataset containing hemorrhage-positive and normal studies used for prototype development | Provides representative training and evaluation data while protecting patient privacy. |
-| Product Feedback Data | Radiologist confirmations, overrides, rejected recommendations | Enables continuous product improvement after deployment by learning from real clinical usage. |
+| Product Feedback Data | Radiologist confirmations, overrides recommendations | Enables continuous product improvement after deployment by learning from real clinical usage. |
 
 Since NeuroTriage AI operates in a clinical environment, all datasets used for model development will be anonymized to remove patient-identifiable information. Only the minimum data required for model training and evaluation will be retained, following data minimization principles and supporting compliance with applicable healthcare privacy regulations.
 
@@ -593,9 +633,11 @@ Since the product must analyse CT brain images, an image classification model is
 
 A CNN-based image classification model has been selected because Convolutional Neural Networks have consistently demonstrated strong performance in recognising clinically significant patterns within medical images while supporting rapid inference required for emergency care.
 
-The trained model will be exposed through REST APIs, allowing seamless integration with existing PACS infrastructure. This avoids introducing new software for radiologists and supports one of the key product goals: **integrate into the workflow rather than replace it.**
+For the target product, a CNN-based or comparable medical-image classification model is envisioned for ICH detection. The academic prototype does not train or deploy a clinical AI model. Instead, AI inference is simulated behind a modular inference interface, allowing the workflow and user experience to be demonstrated independently of model development.
 
-The API provides:
+For a future clinical implementation, the inference service can be exposed through REST APIs and integrated with existing PACS infrastructure. This supports the product goal to **integrate into the workflow rather than replace it.**
+
+The target API would provide:
 
 - AI assessment (Suspected ICH / No Suspicious Findings)
 - Confidence level
@@ -642,7 +684,7 @@ NeuroTriage AI will progress from pilot deployment to wider clinical adoption on
 | Radiologist Adoption Rate | ≥85% | Demonstrates that clinicians trust and routinely use the product. |
 | AI System Availability | ≥99.5% | Ensures uninterrupted support during emergency operations. |
 
-These thresholds represent not only technical expectations but also the minimum level of product performance required to deliver meaningful clinical value.
+These thresholds represent not only technical expectations but also the minimum level of product performance required to deliver meaningful clinical value. They are target thresholds for future clinical validation and are not measurements from the academic prototype, which uses simulated AI inference.
 
 ---
 
@@ -764,7 +806,7 @@ These launch blockers ensure that **patient safety, clinician trust, and workflo
 
 # 7. References
 
-1. RSNA Intracranial Hemorrhage Detection Dataset.
+1. RSNA Brain CT Hemorrhage Dataset / publication
 2. CQ500: A Large-Scale Annotated Brain CT Dataset for Intracranial Hemorrhage Detection.
 3. PlantUML. https://plantuml.com/
 
@@ -773,6 +815,8 @@ These launch blockers ensure that **patient safety, clinician trust, and workflo
 # 8. Appendix
 
 The detailed supporting artifacts for this project are available in the accompanying GitHub repository under the **Appendix** folder.
+
+The academic prototype demonstrates the intended workflow using simulated AI inference and real anonymized CT study images. It is not intended to demonstrate clinical-grade AI accuracy, live PACS/DICOM integration, regulatory readiness, or production-scale deployment.
 
 These include:
 
@@ -785,4 +829,7 @@ These include:
 - Roadmap
 - Metrics
 - Risk Note
-- Prototype Screenshots (to be added)
+- Prototype Screenshots
+- Prototype Architecture
+- Prototype Demonstration Flow
+- Prototype Source Code
