@@ -35,4 +35,4 @@ It demonstrates the **workflow and product concept**, using real anonymized CT i
 
 - Repository: Accompanying GitHub repository
 - Live Demo: `http://localhost:5173/` (local demo)
-- Screenshots / Video: See the project screenshots and demonstration materials
+- Video: https://youtu.be/I6gwdCbi2uo
